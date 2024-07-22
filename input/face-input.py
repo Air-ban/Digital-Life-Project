@@ -2,7 +2,7 @@ import cv2
 import os
 import numpy as np
 import sys
-weight_num = 0.4 #提权系数
+weight_num = 0.5 #提权系数
 
 # 加载Haar级联文件
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
