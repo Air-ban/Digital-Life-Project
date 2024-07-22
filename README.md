@@ -1,9 +1,9 @@
 # Digital-Life-Project
 本项目致力于打造一个数字生命的赛博人，此为预览项目
 ## 文件夹结构说明
-- input
-- illation
-- output
+- input （完善中）
+- illation （欠完善）
+- output （欠完善）
 
 其中，```input```文件夹为基础数据输入文件夹，负责通过外部硬件收集各项数据，用于面部识别，语音识别，动作识别等等
 
