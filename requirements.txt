@@ -1,0 +1,5 @@
+numpy==2.0.1
+opencv_python==4.10.0.84
+rapid_paraformer==2.0.5
+sounddevice==0.4.7
+soundfile==0.12.1
