@@ -90,13 +90,7 @@ class face_input:
             # 在视频帧上绘制边框和名称
             cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
             cv2.putText(frame, best_match_name, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
+            #显示结果
+            cv2.imshow('Video', frame)
             with open('face_recognition_results.txt', 'a') as file:
                 file.write(f"{best_match_name}\n")
-
-        # 显示结果
-        cv2.imshow('Video', frame)
-
-
-        # 按 'q' 退出循环
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
