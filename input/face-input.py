@@ -96,6 +96,7 @@ while True:
         # 在视频帧上绘制边框和名称
         cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
         cv2.putText(frame, best_match_name, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
+        os.sleep(2)
         with open('face_recognition_results.txt', 'a') as file:
             file.write(f"{best_match_name}\n")
 

@@ -16,7 +16,11 @@ proportion_zzb = (count_zzb / total_words) * 100
 # 打印结果
 print(f'人物出现在镜头前的概率: {proportion_zzb:.2f}%')
 
-message = f"{proportion_zzb:.2f}"
+with open(r'input\user_words.txt', 'r', encoding='utf-8') as file:
+    content = file.read()
+    user_words = content.split()
+
+message = f"{user_words}:{proportion_zzb:.2f}"
 
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
