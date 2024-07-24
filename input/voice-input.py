@@ -36,4 +36,5 @@ while True:
     sf.write(filename, recording, fs)  # 保存录音
     text = rich_transcription_postprocess(res[0]["text"])
     print(text)
-#保存这个text为说话的内容，靠你啦！
+    with open(r'input\user_words.txt', 'w', encoding='utf-8') as file:
+        file.write(text)

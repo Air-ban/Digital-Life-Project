@@ -18,7 +18,7 @@ print(f'人物出现在镜头前的概率: {proportion_zzb:.2f}%')
 
 with open(r'input\user_words.txt', 'r', encoding='utf-8') as file:
     content = file.read()
-    user_words = content.split()
+    user_words = content
 
 message = f"{user_words}:{proportion_zzb:.2f}"
 
