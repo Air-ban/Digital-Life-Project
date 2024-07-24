@@ -41,11 +41,11 @@ class face_input:
                         self.known_faces_features.append(descriptors)
                         self.known_names.append(name)
         # 初始化摄像头
-        video_capture = cv2.VideoCapture(0)
+        self.video_capture = cv2.VideoCapture(0)
         # 创建FLANN匹配器
         index_params = dict(algorithm=1, trees=5)
         search_params = dict(checks=50)
-        flann = cv2.FlannBasedMatcher(index_params, search_params)
+        self.flann = cv2.FlannBasedMatcher(index_params, search_params)
     def __del__(self):
         self.video_capture.release()
         cv2.destroyAllWindows()
@@ -67,7 +67,7 @@ class face_input:
             face_roi = gray[y:y+h, x:x+w]
 
             # 检测特征点
-            keypoints, descriptors = self.sift.detectAndCompute(face_roi, None)
+            keypoints, descriptors = self.sift.detectAndCompute(face_roi, None)#这里有问题
 
             # 进行特征点匹配
             matches = []
@@ -92,5 +92,30 @@ class face_input:
             cv2.putText(frame, best_match_name, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
             #显示结果
             cv2.imshow('Video', frame)
-            with open('face_recognition_results.txt', 'a') as file:
-                file.write(f"{best_match_name}\n")
+            self.name_list.append(best_match_name)
+    def proportion(self):
+        """
+        计算并返回出现频率最高的名字及其比例。
+        
+        遍历名字列表，统计每个名字出现的次数。然后找出出现次数最多的次数。
+        最后，计算并返回出现次数最多的那个名字的比例。
+        """
+        # 初始化一个字典，用于存储名字和对应的出现次数
+        name_dict = {}
+        for name in self.name_list:
+            # 如果名字已存在于字典中，增加其计数；否则，将其添加到字典并设置计数为1
+            if name in name_dict:
+                name_dict[name] += 1
+            else:
+                name_dict[name] = 1
+        # 计算名字列表的总长度，用于后续计算比例
+        total_count = len(self.name_list)
+        # 找出名字出现次数的最大值
+        max_count = max(name_dict.values())
+        # 遍历字典，找出出现次数等于最大值的名字
+        for name, count in name_dict.items():
+            if count == max_count:
+                # 计算并返回出现频率最高的名字及其比例
+                proportion = count / total_count
+                self.name_list=[]#清空列表
+                return name, proportion

@@ -19,7 +19,6 @@ try:
         # 等待客户端连接
         client_socket, client_address = server_socket.accept()
         print(f"接受来自 {client_address} 的连接")
-
         try:
             # 接收数据
             while True:
@@ -27,12 +26,11 @@ try:
                 if not data:
                     break  # 如果没有数据，则断开连接
                 print(f"收到数据: {data.decode('utf-8')}")
-
-                # 这里可以添加处理数据的代码
-                # ...
-
-                # 响应客户端（可选）
-                response = '数据已接收'
+                with open('rate.txt', 'w', encoding='utf-8') as file:
+                    file.write(data)
+                with open('words.txt', 'w', encoding='utf-8') as file:
+                    file.write(data)
+                response = 'OK'
                 client_socket.sendall(response.encode('utf-8'))
 
         finally:
