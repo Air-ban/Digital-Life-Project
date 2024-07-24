@@ -27,12 +27,13 @@ try:
                 if not data:
                     break  # 如果没有数据，则断开连接
                 print(f"收到数据: {data.decode('utf-8')}")
+                with open('rate.txt', 'w', encoding='utf-8') as file:
+                    file.write(data)
+                with open('words.txt', 'w', encoding='utf-8') as file:
+                    file.write(data)
 
-                # 这里可以添加处理数据的代码
-                # ...
-
-                # 响应客户端（可选）
-                response = '数据已接收'
+               
+                response = 'OK'
                 client_socket.sendall(response.encode('utf-8'))
 
         finally:
