@@ -42,7 +42,6 @@ class AudioTranscription:
         self.transcription_text = text
 
     def run(self):
-       while True:
             self.record_audio()
             text = self.transcribe_audio()
             print(text)
