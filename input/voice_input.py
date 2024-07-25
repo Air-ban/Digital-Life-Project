@@ -16,6 +16,7 @@ class AudioTranscription:
             vad_kwargs={"max_single_segment_time": 30000},
             hub="hf",
         )
+        self.transcription_text = ""  # 添加一个实例变量来保存转录文本
         self.filename = "temp.wav"
 
     def record_audio(self):
@@ -37,17 +38,12 @@ class AudioTranscription:
         return text
 
     def save_transcription(self, text):
-        with open(r'input\user_words.txt', 'w', encoding='utf-8') as file:
-            file.write(text)
+        # 将转录文本保存到实例变量中，而不是写入文件
+        self.transcription_text = text
 
     def run(self):
-        while True:
+       while True:
             self.record_audio()
             text = self.transcribe_audio()
             print(text)
-            self.save_transcription(text)
-
-# 使用类
-model_dir = "FunAudioLLM/SenseVoiceSmall"  # 指定模型
-audio_transcription = AudioTranscription(model_dir)
-audio_transcription.run()
+            self.save_transcription(text)  # 调用修改后的方法来保存转录文本
