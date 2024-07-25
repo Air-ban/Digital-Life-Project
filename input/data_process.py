@@ -1,40 +1,58 @@
 import socket
+import face_input 
+from face_input import face_input # 确保这里正确导入了 face_input 类
 
-SERVER_HOST = '127.0.0.1'  # 服务器的主机名或IP地址
-SERVER_PORT = 12345        # 服务器正在监听的端口
+class ClientSocket:
+    def __init__(self, host, port):
+        self.SERVER_HOST = host
+        self.SERVER_PORT = port
+        self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-with open(r'input\face_recognition_result.txt', 'r', encoding='utf-8') as file:
-    content = file.read()
+    def connect_to_server(self):
+        try:
+            self.client_socket.connect((self.SERVER_HOST, self.SERVER_PORT))
+            print(f"已连接到 {self.SERVER_HOST}:{self.SERVER_PORT}")
+        except Exception as e:
+            print(f"连接失败: {e}")
 
-words = content.split()
+    def send_data(self, message):
+        try:
+            self.client_socket.sendall(message.encode('utf-8'))
+            print(f"已发送数据: {message}")
+        except Exception as e:
+            print(f"发送数据失败: {e}")
 
-total_words = len(words)
-count_zzb = words.count('zzb')
+    def receive_response(self):
+        try:
+            response = self.client_socket.recv(1024)
+            print(f"服务器响应: {response.decode('utf-8')}")
+        except Exception as e:
+            print(f"接收响应失败: {e}")
 
-proportion_zzb = (count_zzb / total_words) * 100
+    def close_connection(self):
+        self.client_socket.close()
+        print("连接已关闭")
 
-# 打印结果
-print(f'人物出现在镜头前的概率: {proportion_zzb:.2f}%')
-
-message = f"{proportion_zzb:.2f}"
-
-client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-try:
-    # 连接到服务器
-    client_socket.connect((SERVER_HOST, SERVER_PORT))
-    print(f"已连接到 {SERVER_HOST}:{SERVER_PORT}")
-
-    # 发送数据
-    client_socket.sendall(message.encode('utf-8'))
-    print(f"已发送数据: {message}")
-
-    # 接收服务器响应（可选）
-    response = client_socket.recv(1024)
-    print(f"服务器响应: {response.decode('utf-8')}")
-
-finally:
-    # 关闭socket连接
-    client_socket.close()
-    print("连接已关闭")
-
+# 使用类
+if __name__ == "__main__":
+    client = ClientSocket('127.0.0.1', 12345)
+    client.connect_to_server()
+    
+    # 创建 face_input 类的实例
+    face_recognition = face_input()
+    print("1")
+    # 启动人脸识别过程
+    face_recognition.get_frame() # 理论上这个语句要写进循环？
+    print("2")
+    # 获取出现频率最高的名字及其比例
+    most_common_name, proportion = face_recognition.proportion()
+    #print(face_recognition.proportion())
+    print("3")
+    # 格式化返回值
+    result_message = f"姓名: {most_common_name}, 概率: {proportion:.2%}"
+    print(result_message)
+    # 发送面部识别结果
+    client.send_data(result_message)
+    client.receive_response()
+    
+    client.close_connection()
