@@ -28,10 +28,10 @@ class TCPServer:
             if not data:
                 break
             print(f"收到数据: {data.decode('utf-8')}")
-            with open('rate.txt', 'w', encoding='utf-8') as file:
-                file.write(data.decode('utf-8'))
-            with open('words.txt', 'w', encoding='utf-8') as file:
-                file.write(data.decode('utf-8'))
+            elements = data.split(":")
+            element1 = elements[0]  # zzb，这是一个字符串
+            element2 = elements[1]  # 56.23，这可以转换为浮点数，但在这个例子中我们保持原样
+            element3 = elements[2]  # 你好，这是一个字符串
             response = 'OK'
             client_socket.sendall(response.encode('utf-8'))
 
