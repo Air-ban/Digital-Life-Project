@@ -42,7 +42,7 @@ class face_input:
                         self.known_faces_features.append(descriptors)
                         self.known_names.append(name)
         # 初始化摄像头
-        self.video_capture = cv2.VideoCapture("http://192.168.1.6:4747/video")
+        self.video_capture = cv2.VideoCapture("0")
         # 创建FLANN匹配器
         index_params = dict(algorithm=1, trees=5)
         search_params = dict(checks=50)
@@ -50,9 +50,10 @@ class face_input:
     def __del__(self):
         self.video_capture.release()
         cv2.destroyAllWindows()
-    def face_input(self):# 从摄像头读取一帧
+    def get_frame(self):# 从摄像头读取一帧
         ret, frame = self.video_capture.read()
         if not ret:
+            #self.name_list.append('zzb')
             print("无法从摄像头读取帧")
             return None
 
@@ -109,10 +110,11 @@ class face_input:
         # 找出名字出现次数的最大值和最常见的名字列表
         max_count = max(name_dict.values())
         name = [name for name, count in name_dict.items() if count == max_count]
-
+        name = name[0]
         # 计算出现频率最高的名字的比例
         total_count = len(self.name_list)
-        proportions = {name: count / total_count for name, count in name_dict.items() if count == max_count}
+        proportions = [count / total_count for name, count in name_dict.items() if count == max_count]
+        proportions=proportions[0]
 
         # 返回最常见的名字列表和它们的比例
         # 注意：如果存在多个最常见名字，这里会返回所有这些名字及其比例

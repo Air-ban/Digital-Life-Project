@@ -40,16 +40,17 @@ if __name__ == "__main__":
     
     # 创建 face_input 类的实例
     face_recognition = face_input()
-    
+    print("1")
     # 启动人脸识别过程
-    face_recognition.face_input()
-    
+    face_recognition.get_frame() # 理论上这个语句要写进循环？
+    print("2")
     # 获取出现频率最高的名字及其比例
     most_common_name, proportion = face_recognition.proportion()
-    
+    #print(face_recognition.proportion())
+    print("3")
     # 格式化返回值
     result_message = f"姓名: {most_common_name}, 概率: {proportion:.2%}"
-    
+    print(result_message)
     # 发送面部识别结果
     client.send_data(result_message)
     client.receive_response()
